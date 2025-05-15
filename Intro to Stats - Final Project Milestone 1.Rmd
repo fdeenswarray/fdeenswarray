@@ -1,0 +1,261 @@
+---
+title: "Intro to Stats - Final Project Milestone 1"
+author: "Todd Estep"
+date: "2024-10-27"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Minimum Wage & Cost of Living in the USA
+
+# Introduction
+
+The minimum wage and its ability to support someone who works full-time to live and support themself with dignity is important to me.  I beleive all people should be able to work and support themselves, and that they should benefit from the fruit of their labor.  Oftentimes, the benefit of their labor is lost to exploitation by others in privileged positions.  Of course employers should gain from their investment in their employees, but if that investment does not allow the employee to live with dignity, then the employer should not be able to benefit from their labor.
+
+The minimum wage affects nearly everyone, even those with salaries well above it, because it affects the cost of basic goods, and higher salaries are a reflection of the minimum wage.  I became interested in this topic when I heard a story of someone who had saved money by working a minimum wage job in the 1990's, and I thought how impossible that would be today.  I also reflected back on my own past, including times when  I worked jobs for less than the minimum wage as a teenager with little options.  I also knew that the federal minimum wage hasn't increased since 2009, with heavy inflation in recent years, especially in rent and housing prices.
+
+I think data science is perfect for analyzing this because it there is lots of public data on this topic, including what the minimum wage is in different areas, the cost of living in those areas, how many people are living on a minimum wage, public opinion on minimum wage and more.  By analyzing the large datasets, we can make sense about the severity of the issue and make useful graphs that are easy to understand and improve our knowledge in the topic.
+
+\newpage
+# Research Questions
+
+1.  What is the minimum wage?
+
+The federal minimum wage is $\$7.25$ per hour, but many places in the US have set their own minimum wage by state or county.  I would like to try and zoom in to the county level and see what the minimum wage is in each of the 3,144 counties in the US.
+
+2.  How many people depend on the minimum wage?
+
+In order to determine the severity of this, I will need to understand how many people depend on the minimum wage for their livelihood.
+
+3.  What is the cost of living?
+
+The cost of living varies a lot by local econonimies.  For this project I would like to zoom in to the county level, and for that I will need the cost of living in of the 3,144 counties in the US.
+
+4.  Which counties are most affected by the gap of minimum wage and cost of living?
+
+Are there places in the US that are easier to live while earning minimum wage?  Would they be traditionally rural or urban areas?  Are there nearby counties with drastically different cost of living and wage ratios?
+
+5.  Does the minimum wage affect the cost of living?
+
+I am curious if a higher minimum wage has a direct affect on the cost of living.  Does an increase in labor costs make living in the area more difficult?
+
+6.  Does the minimum wage affect the average salary?
+
+I would like to know how much the minimum wage affects other wages.  Are higher average salaries a reflection of a higher minimum wage?
+
+7.  Are there groups of people disproportionately affected by the minimum wage?
+
+There are many different ways to group people, whether by race, age, gender, education or more.  I'd like to see which people are most affected by minimum wage laws.
+
+8.  Are there a significant number of people earning below the minimum wage?
+
+While minimum wage is an official law, I am curious if there are a significant number of people earning less than the minimum wage.
+
+9.  How has the minimum wage changed historically?
+
+How and why was the minimum wage established?  What time was the minimum wage the most livable?  How has it changed with inflation?
+
+10.  What is the best way to communicate this information?
+
+I am interested in using maps to answer these questions, but I'm also curious if there are other graphs that will be useful in communicating this information.  When I combine the datasets, I am interested about what interactions I can find.
+
+\newpage
+# Approach
+
+I plan on using a variety of approaches in answering these questions, but primarily I would like to zoom in on the county level in the US.  With minimum wage being set at a local level (and even some individual cities), and the cost of living varying widely too, I think analyzing the 3,144 counties in the US provides a good depth in the data where I can gain a variety of insights.
+
+Because the counties refer to geographic locations, I think using maps will be essential in analyzing this data.  It will also be useful in seeing if there are larger groups where the problem is more severe, or if there are areas that are quite livable on the minimum wage.
+
+In addition to geography, I will also look at how the minimum wage affects people by demographics, if certain groups are more affected by others.  I am also interested in looking at minimum wage historically and how it compares to inflation.  Finally, I'd also like to see how widespread minimum wage is, how many people it affects, and how many people earn below minimum wage.
+
+\newpage
+# Data
+
+The Econonimc Policy Institute - Minimum Wage Tracker, URL:  [www.epi.org/minimum-wage-tracker/#/min_wage](https://www.epi.org/minimum-wage-tracker/#/min_wage)
+
+This site has a list of all the minimum wages, including highlighting differences.  I will have to sort the data into a csv spreadsheet
+
+The Economic Policy Institute - Cost of Living by County, URL: [www.epi.org/resources/budget/budget-map/](https://www.epi.org/resources/budget/budget-map/)
+
+This has a downloadable csv with data covering the cost of living by county, including comparing costs of single adults vs families.
+
+```{r}
+library(readxl)
+Min_Wage_County <- read_excel('fbc_data_2024.xlsx', sheet=2)
+head(Min_Wage_County)
+```
+
+The US Bureau of Labor Statistics - Characteristics of Minimum Wage Workers, URL [www.bls.gov/opub/reports/minimum-wage/2023/](https://www.bls.gov/opub/reports/minimum-wage/2023/)
+
+This site offers lots of data on who is working minimum wage by demographics, including sex, age, race and industry.  It will be good in helping me determine if the minimum wage is disproportionately exploiting and affecting a group of people.
+
+```{r}
+Min_Wage_Chars <- read_excel('MinWageCharacteristics.xlsx')
+head(Min_Wage_Chars)
+```
+
+USA Facts:  Minimum Wage in America - How Many people are earning $\$7.25$ an Hour, URL: [usafacts.org/articles/minimum-wage-america-how-many-people-are-earning-725-hour/](https://usafacts.org/articles/minimum-wage-america-how-many-people-are-earning-725-hour/)
+
+This site offers a good historical comparison of the federal minimum wage when adjusted for inflation, with a downloadable csv.
+
+```{r}
+library(readr)
+Min_Wage_Inflation <- read_csv('MinWageInflation.csv', show_col_types=FALSE)
+head(Min_Wage_Inflation)
+```
+
+\newpage
+# Required Packages
+
+I already had to use the readXl and readr package to read the Excel and csv spreadsheets.
+
+This I know I will have to update later as I move along.  Right now I am sure that I will have to use ggplot2 and tidyverse, because I would like to make some nice graphs and also I will need to adjust the data to include only the parts that I am interested in.
+
+I will also want to make maps of the US focusing on the counties, so I will need the usmap package.  I'm not very familiar with making maps in r yet, and there are many map packages, so as I move along in the project, I may need to use additional map packages, such as maps, mapdata or tmap.
+
+# Plots and Table Needs
+
+Currently I will need to organize the minimum wage county data into a table.  I will also have to get the US county geoJSon file in order to make maps.  I will also need to take subsets of some data, as I think for the purpose of this project I am focusing on single adults, while my dataset includes comparisons for different family sizes.
+
+# Questions for Future Steps
+
+Right now my biggest concern is working with map graphs.  I have not done that before, but my initial research suggests that I should be able to do it with practice.  I am confident in my ability to organize the data into something manageable, like focusing on single adults or finding which demographics to focus on.
+
+I am a little concerned that my idea to focus on the county level may be too ambitious, but I think I will be able to do it, because many states have statewide minimum wages, I will just need to make adjustments for the differences, which isn't too many counties.  My cost of living dataset already includes the cost of living by county, so I will just need to make a subset of that for single adults.
+
+\newpage
+# Final Project Milestone 2
+
+## How did you import and clean your data?
+
+Here is the original data I started with:
+
+```{r}
+library(dplyr)
+library(readxl)
+fbc_data_2024 <- read_excel("fbc_data_2024.xlsx", sheet=2)
+head(fbc_data_2024)
+
+mod_data <-fbc_data_2024
+
+colnames(mod_data) <- c("case_id", "state", "county_fips", "county", "family", 
+                        "m_housing", "m_food", "m_transport", "m_health", 
+                        "m_other", "m_child", "m_taxes", "m_total", "a_housing",
+                        "a_food", "a_transport", "a_health", "a_other",
+                        "a_child", "a_taxes", "a_total", "median_family_income",
+                        "num_counties_in_state", "state_cost_rank", 
+                        "state_median_aff_rank", "state_income_rank")
+mod_data <- mod_data[-1,]
+mod_data <- mod_data[,-1]
+
+head(mod_data)
+```
+
+I renamed all the columns to the correct headers, as the original data had two headers, one denoting monthly and annual seperations.  I combined that with a prefix "m_" for monthly and "a_" for annual.  I then deleted the blank header space and had the data organized to the correct columns.  
+
+```{r}
+mod_data <- mod_data %>% filter(family=="1p0c")
+
+head(mod_data)
+
+mod_data <- mod_data %>% select(-m_child)
+mod_data <- mod_data %>% select(-a_child)
+mod_data <- mod_data %>% select(-family)
+```
+
+Next I wanted to focus on single adults with no children to make the data easier, and to increase the focus on a single adult's survivability.  Since a single adult has no childcare costs, I could delete that column, as they were all 0's.  Since the family was specifically selected to include single adults, the family column all matched to '1p0c', meaning 1 parent 0 children, but since they were all the same the data was redundant and deleted.\
+\ To include the miniumum wage data found at [www.epi.org/minimum-wage-tracker/#/min_wage](https://www.epi.org/minimum-wage-tracker/#/min_wage), I found it easier to open the data in a csv editor and insert the data manually.  It wasn't that difficult because most states have matching minimum wage's, so I could input each state at a time, and adjust for the differing counties.
+```{r}
+min_wage_mod_data <- read_csv("min_wage_mod_data.csv")
+summary(min_wage_mod_data$min_wage)
+```
+
+I then added some columns calculating the monthly salary and annual salary based on the minimum wage and using 260 work days per year, 22 work days per month.  I also calculated the percentage of the cost of living the salary's could pay for.
+
+```{r}
+min_wage_mod_data <- min_wage_mod_data %>% mutate(m_income=min_wage*22*8)
+min_wage_mod_data <- min_wage_mod_data %>% mutate(a_income=min_wage*260*8)
+min_wage_mod_data <- min_wage_mod_data %>% mutate(m_ratio=m_income/m_total)
+min_wage_mod_data <- min_wage_mod_data %>% mutate(a_ratio=a_income/a_total)
+summary(min_wage_mod_data$m_ratio)
+summary(min_wage_mod_data$a_ratio)
+```
+
+I noticed that no county had a ratio above 1, meaning no county could a person afford to live by just working a full-time minimum wage job.
+I now had all the data needed to map the US by counties, and create a gradient showing where the most and least affordable counties were.
+
+```{r}
+library(usmap)
+library(ggplot2)
+min_wage_mod_data <- min_wage_mod_data %>% rename(fips = county_fips)
+
+monthly_cost_ratio <- plot_usmap(
+  color = "white",
+  linewidth = 0.1,
+  regions = "counties",
+  data = min_wage_mod_data,
+  values = "m_ratio"
+) +
+  scale_fill_gradient(
+    trans = 'log',
+    labels = scales::label_number(big.mark = ','),
+    high = 'white',
+    low = 'red'
+  ) +
+  theme(legend.position = 'top') +
+  labs(fill = 'Monthly Wage to Monthly Cost of Living Ratio')
+
+monthly_cost_ratio
+
+annual_cost_ratio <- plot_usmap(
+  color = "white",
+  linewidth = 0.1,
+  regions = "counties",
+  data = min_wage_mod_data,
+  values = "a_ratio"
+) +
+  scale_fill_gradient(
+    trans = 'log',
+    labels = scales::label_number(big.mark = ','),
+    high = 'white',
+    low = 'red'
+  ) +
+  theme(legend.position = 'top') +
+  labs(fill = 'Annual Wage to Annual Cost of Living Ratio')
+annual_cost_ratio
+```
+
+I initially struggled, but realized that the data heavily relied on the fips number.  In my first attempt, I had deleted this information thinking I did not need it, but when reading the documentation for graphing with maps I realized it relied heavily on it, and it only worked when the column was named exactly "fips".\
+Another thing I noticed is that while most of the US worked, Connecticut did not.  I did some quick research and found that Connecticut had recently updated their fips numbering.  I will update that in milestone 3, but unfortunately am unable to do so for this milestone.
+
+#2 What does the final data set look like?
+
+My initial dataset had 31431 data entries across 26 variables.  My final dataset has 3143 data entries across 23 variables, so I was able to reduce the data by 90%.  Most importantly, I added columns for minimum wage and calculated the salary ratios of wages to cost of living for both monthly and annual.  I also focused my data on single adults.
+
+#3 What information is not self-evident?
+
+Because I focused on the counties, it is not self-evident the differences between states.  Upon seeing the map, it was very apparent that the differences are most between states, with only slight differences in counties.
+
+#4  How do you plan to slice and dice the data?
+
+I think taking a closer look at the differences between states would be useful.  I'd also like to take a closer look at the top and bottom counties to see if there are any patterns, either geographically or politically.
+
+#5  How could you summarize your data to answer key questions?
+
+There are a few things I noticed immediately.  First, there were no counties in which a minimum wage covered the cost of living for a single adult.  That would mean it is impossible to live solely on a minimum wage job.  Even the counties with the highest ratio only covers about 85% of the expenses, and only 21 out of 3143 counties the ratio was above 80%.  48 counties covered less than 30% of living costs.
+
+#6 What types of plots and tables will help you to illustrate the findings to your questions?
+
+I think grouping by state and doing a state map will help me dig deeper into this topic.
+
+#7 Do you plan on incorporating any machine learning techniques to answer your research questions? Explain.
+
+I don't think machine learning is appropriate in this topic.  I am not trying to predict anything and I am not proposing a model.  I am simply looking at the data that is available and assessing it.
+
+#8 What questions do you have now, that will lead to further analysis or additional steps?
+
+I'd like to dive deeper into comparing the states, including possible political differences.  I'd also like to see if there is a better way to display the data, as this is my first time making a map, and for now I was happy with just getting it working, but I think I would be able to tweak it to make it more attractive and more useful.  I'd also like to go back to my initial research questions and see if I could address them more directly.
